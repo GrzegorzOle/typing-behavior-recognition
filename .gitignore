@@ -1,3 +1,10 @@
 /InvisiTypeAI/.vs
 /InvisiTypeAI/obj
 /PressPattern/obj
+/PressPattern/bin/Debug/net9.0/keystroke_data.csv
+/PressPattern/bin/Debug/net9.0/*.csv
+/PressPattern/bin/Release/net9.0/publish/win-x86/keystroke_data.csv
+/PressPattern/PressPattern.csproj.user
+/PressPattern/Properties/PublishProfiles/
+/PressPattern/bin/Debug
+/PressPattern/bin/Release/net9.0/

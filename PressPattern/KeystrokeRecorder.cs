@@ -118,8 +118,9 @@ namespace PressPattern
             int filled = (int)(barWidth * percent);
 
             string bar = "[" + new string('█', filled) + new string('░', barWidth - filled) + $"] {percent * 100:F1}%";
-            Console.WriteLine($"Key added: {recorded}/{total} {bar}");
+            Console.Write($"\rSamples collected: {_keyIndex} | Unique keys: {recorded}/{total} {bar}");
         }
+
 
         private HashSet<string> InitializeTargetKeySet()
         {
