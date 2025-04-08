@@ -1,14 +1,394 @@
 ﻿{
-  "Scenario": "Default",
+  "Scenario": "Classification",
+  "DataSource": {
+    "Version": 3,
+    "EscapeCharacter": "\"",
+    "ReadMultiLines": false,
+    "KeepDiacritics": false,
+    "KeepPunctuations": false,
+    "AllowQuoting": false,
+    "Type": "TabularFile",
+    "FilePath": "C:\\Prace\\Git\\typing-behavior-recognition\\PressPattern\\bin\\Debug\\net9.0\\keystroke_data_train.csv",
+    "Delimiter": ",",
+    "DecimalMarker": ".",
+    "HasHeader": false,
+    "ColumnProperties": [
+      {
+        "ColumnName": "col0",
+        "ColumnPurpose": "Ignore",
+        "ColumnDataFormat": "String",
+        "IsCategorical": false,
+        "Type": "Column",
+        "Version": 5
+      },
+      {
+        "ColumnName": "col1",
+        "ColumnPurpose": "Feature",
+        "ColumnDataFormat": "Single",
+        "IsCategorical": false,
+        "Type": "Column",
+        "Version": 5
+      },
+      {
+        "ColumnName": "col2",
+        "ColumnPurpose": "Feature",
+        "ColumnDataFormat": "Single",
+        "IsCategorical": false,
+        "Type": "Column",
+        "Version": 5
+      },
+      {
+        "ColumnName": "col3",
+        "ColumnPurpose": "Feature",
+        "ColumnDataFormat": "Single",
+        "IsCategorical": false,
+        "Type": "Column",
+        "Version": 5
+      },
+      {
+        "ColumnName": "col4",
+        "ColumnPurpose": "Feature",
+        "ColumnDataFormat": "Single",
+        "IsCategorical": false,
+        "Type": "Column",
+        "Version": 5
+      },
+      {
+        "ColumnName": "col5",
+        "ColumnPurpose": "Ignore",
+        "ColumnDataFormat": "String",
+        "IsCategorical": false,
+        "Type": "Column",
+        "Version": 5
+      },
+      {
+        "ColumnName": "col6",
+        "ColumnPurpose": "Ignore",
+        "ColumnDataFormat": "Boolean",
+        "IsCategorical": false,
+        "Type": "Column",
+        "Version": 5
+      },
+      {
+        "ColumnName": "col7",
+        "ColumnPurpose": "Ignore",
+        "ColumnDataFormat": "Boolean",
+        "IsCategorical": false,
+        "Type": "Column",
+        "Version": 5
+      },
+      {
+        "ColumnName": "col8",
+        "ColumnPurpose": "Label",
+        "ColumnDataFormat": "String",
+        "IsCategorical": true,
+        "Type": "Column",
+        "Version": 5
+      }
+    ]
+  },
   "Environment": {
     "Type": "LocalCPU",
     "Version": 1
   },
+  "RunHistory": {
+    "Version": 3,
+    "Type": "Result",
+    "Trials": [
+      {
+        "Version": 1,
+        "Type": "Trial",
+        "TrainerName": "LightGbmMulti",
+        "Score": 0.38003828688493635,
+        "RuntimeInSeconds": 24.351,
+        "Parameter": {
+          "_SCHEMA_": "e0 * e1 * e2 * e4 * e9",
+          "e0": {
+            "OutputColumnNames": [
+              "col1",
+              "col2",
+              "col3",
+              "col4"
+            ],
+            "InputColumnNames": [
+              "col1",
+              "col2",
+              "col3",
+              "col4"
+            ]
+          },
+          "e1": {
+            "InputColumnNames": [
+              "col1",
+              "col2",
+              "col3",
+              "col4"
+            ],
+            "OutputColumnName": "Features"
+          },
+          "e2": {
+            "OutputColumnName": "col8",
+            "InputColumnName": "col8",
+            "AddKeyValueAnnotationsAsText": false
+          },
+          "e4": {
+            "NumberOfLeaves": 182,
+            "MinimumExampleCountPerLeaf": 20,
+            "LearningRate": 0.99999977667298645,
+            "NumberOfTrees": 1381,
+            "SubsampleFraction": 0.99999977667298645,
+            "MaximumBinCountPerFeature": 277,
+            "FeatureFraction": 0.99893494716124831,
+            "L1Regularization": 2E-10,
+            "L2Regularization": 0.99999977667298645,
+            "LabelColumnName": "col8",
+            "FeatureColumnName": "Features"
+          },
+          "e9": {
+            "OutputColumnName": "PredictedLabel",
+            "InputColumnName": "PredictedLabel"
+          }
+        }
+      },
+      {
+        "Version": 1,
+        "Type": "Trial",
+        "TrainerName": "FastForestOva",
+        "Score": 0.37021744363883541,
+        "RuntimeInSeconds": 2.703,
+        "Parameter": {
+          "_SCHEMA_": "e0 * e1 * e2 * e3 * e9",
+          "e0": {
+            "OutputColumnNames": [
+              "col1",
+              "col2",
+              "col3",
+              "col4"
+            ],
+            "InputColumnNames": [
+              "col1",
+              "col2",
+              "col3",
+              "col4"
+            ]
+          },
+          "e1": {
+            "InputColumnNames": [
+              "col1",
+              "col2",
+              "col3",
+              "col4"
+            ],
+            "OutputColumnName": "Features"
+          },
+          "e2": {
+            "OutputColumnName": "col8",
+            "InputColumnName": "col8",
+            "AddKeyValueAnnotationsAsText": false
+          },
+          "e3": {
+            "NumberOfTrees": 9,
+            "NumberOfLeaves": 10,
+            "FeatureFraction": 0.83235025,
+            "LabelColumnName": "col8",
+            "FeatureColumnName": "Features"
+          },
+          "e9": {
+            "OutputColumnName": "PredictedLabel",
+            "InputColumnName": "PredictedLabel"
+          }
+        }
+      },
+      {
+        "Version": 1,
+        "Type": "Trial",
+        "TrainerName": "FastForestOva",
+        "Score": 0.36454931837921534,
+        "RuntimeInSeconds": 2.983,
+        "Parameter": {
+          "_SCHEMA_": "e0 * e1 * e2 * e3 * e9",
+          "e0": {
+            "OutputColumnNames": [
+              "col1",
+              "col2",
+              "col3",
+              "col4"
+            ],
+            "InputColumnNames": [
+              "col1",
+              "col2",
+              "col3",
+              "col4"
+            ]
+          },
+          "e1": {
+            "InputColumnNames": [
+              "col1",
+              "col2",
+              "col3",
+              "col4"
+            ],
+            "OutputColumnName": "Features"
+          },
+          "e2": {
+            "OutputColumnName": "col8",
+            "InputColumnName": "col8",
+            "AddKeyValueAnnotationsAsText": false
+          },
+          "e3": {
+            "NumberOfTrees": 7,
+            "NumberOfLeaves": 7,
+            "FeatureFraction": 0.9736351,
+            "LabelColumnName": "col8",
+            "FeatureColumnName": "Features"
+          },
+          "e9": {
+            "OutputColumnName": "PredictedLabel",
+            "InputColumnName": "PredictedLabel"
+          }
+        }
+      },
+      {
+        "Version": 1,
+        "Type": "Trial",
+        "TrainerName": "FastForestOva",
+        "Score": 0.35956122314112005,
+        "RuntimeInSeconds": 2.834,
+        "Parameter": {
+          "_SCHEMA_": "e0 * e1 * e2 * e3 * e9",
+          "e0": {
+            "OutputColumnNames": [
+              "col1",
+              "col2",
+              "col3",
+              "col4"
+            ],
+            "InputColumnNames": [
+              "col1",
+              "col2",
+              "col3",
+              "col4"
+            ]
+          },
+          "e1": {
+            "InputColumnNames": [
+              "col1",
+              "col2",
+              "col3",
+              "col4"
+            ],
+            "OutputColumnName": "Features"
+          },
+          "e2": {
+            "OutputColumnName": "col8",
+            "InputColumnName": "col8",
+            "AddKeyValueAnnotationsAsText": false
+          },
+          "e3": {
+            "NumberOfTrees": 5,
+            "NumberOfLeaves": 4,
+            "FeatureFraction": 1.0,
+            "LabelColumnName": "col8",
+            "FeatureColumnName": "Features"
+          },
+          "e9": {
+            "OutputColumnName": "PredictedLabel",
+            "InputColumnName": "PredictedLabel"
+          }
+        }
+      },
+      {
+        "Version": 1,
+        "Type": "Trial",
+        "TrainerName": "LightGbmMulti",
+        "Score": 0.3563225000944073,
+        "RuntimeInSeconds": 0.487,
+        "Parameter": {
+          "_SCHEMA_": "e0 * e1 * e2 * e4 * e9",
+          "e0": {
+            "OutputColumnNames": [
+              "col1",
+              "col2",
+              "col3",
+              "col4"
+            ],
+            "InputColumnNames": [
+              "col1",
+              "col2",
+              "col3",
+              "col4"
+            ]
+          },
+          "e1": {
+            "InputColumnNames": [
+              "col1",
+              "col2",
+              "col3",
+              "col4"
+            ],
+            "OutputColumnName": "Features"
+          },
+          "e2": {
+            "OutputColumnName": "col8",
+            "InputColumnName": "col8",
+            "AddKeyValueAnnotationsAsText": false
+          },
+          "e4": {
+            "NumberOfLeaves": 4,
+            "MinimumExampleCountPerLeaf": 20,
+            "LearningRate": 1.0,
+            "NumberOfTrees": 4,
+            "SubsampleFraction": 1.0,
+            "MaximumBinCountPerFeature": 254,
+            "FeatureFraction": 1.0,
+            "L1Regularization": 2E-10,
+            "L2Regularization": 1.0,
+            "LabelColumnName": "col8",
+            "FeatureColumnName": "Features"
+          },
+          "e9": {
+            "OutputColumnName": "PredictedLabel",
+            "InputColumnName": "PredictedLabel"
+          }
+        }
+      }
+    ],
+    "Estimators": {
+      "e0": "ReplaceMissingValues",
+      "e1": "Concatenate",
+      "e2": "MapValueToKey",
+      "e3": "FastForestOva",
+      "e4": "LightGbmMulti",
+      "e5": "LbfgsLogisticRegressionOva",
+      "e6": "LbfgsMaximumEntropyMulti",
+      "e7": "SdcaMaximumEntropyMulti",
+      "e8": "SdcaLogisticRegressionOva",
+      "e9": "MapKeyToValue"
+    },
+    "Schema": "e0 * e1 * e2 * (e3 + e4 + e5 + e6 + e7 + e8) * e9",
+    "MetricName": "MicroAccuracy",
+    "ModelFilePath": "C:\\Prace\\Git\\typing-behavior-recognition\\InvisiTypeAI\\MLModelType.mlnet"
+  },
   "Type": "TrainingConfig",
   "Version": 5,
   "TrainingOption": {
-    "Version": 1,
-    "Type": "DefaultTrainingOption",
-    "TrainingTime": 0
+    "Version": 2,
+    "Subsampling": false,
+    "Tuner": "eci-cfo",
+    "Type": "ClassificationTrainingOption",
+    "TrainingTime": 120,
+    "OptimizeMetric": "MicroAccuracy",
+    "LabelColumn": "col8",
+    "AvailableTrainers": [
+      "SDCA",
+      "LBFGS",
+      "LGBM",
+      "FASTFOREST"
+    ],
+    "ValidationOption": {
+      "Version": 0,
+      "Type": "CrossValidationValidationOption",
+      "NumberOfFolds": 5
+    }
   }
 }
