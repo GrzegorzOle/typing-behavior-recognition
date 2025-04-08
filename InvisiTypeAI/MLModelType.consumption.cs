@@ -15,6 +15,10 @@ namespace InvisiTypeAI
         #region model input class
         public class ModelInput
         {
+            [LoadColumn(0)]
+            [ColumnName(@"col0")]
+            public string Col0 { get; set; }
+
             [LoadColumn(1)]
             [ColumnName(@"col1")]
             public float Col1 { get; set; }
@@ -31,9 +35,29 @@ namespace InvisiTypeAI
             [ColumnName(@"col4")]
             public float Col4 { get; set; }
 
+            [LoadColumn(5)]
+            [ColumnName(@"col5")]
+            public float Col5 { get; set; }
+
+            [LoadColumn(6)]
+            [ColumnName(@"col6")]
+            public string Col6 { get; set; }
+
+            [LoadColumn(7)]
+            [ColumnName(@"col7")]
+            public float Col7 { get; set; }
+
             [LoadColumn(8)]
             [ColumnName(@"col8")]
-            public string Col8 { get; set; }
+            public float Col8 { get; set; }
+
+            [LoadColumn(9)]
+            [ColumnName(@"col9")]
+            public bool Col9 { get; set; }
+
+            [LoadColumn(10)]
+            [ColumnName(@"col10")]
+            public string Col10 { get; set; }
 
         }
 
@@ -45,6 +69,9 @@ namespace InvisiTypeAI
         #region model output class
         public class ModelOutput
         {
+            [ColumnName(@"col0")]
+            public float[] Col0 { get; set; }
+
             [ColumnName(@"col1")]
             public float Col1 { get; set; }
 
@@ -57,8 +84,23 @@ namespace InvisiTypeAI
             [ColumnName(@"col4")]
             public float Col4 { get; set; }
 
+            [ColumnName(@"col5")]
+            public float Col5 { get; set; }
+
+            [ColumnName(@"col6")]
+            public float[] Col6 { get; set; }
+
+            [ColumnName(@"col7")]
+            public float Col7 { get; set; }
+
             [ColumnName(@"col8")]
-            public uint Col8 { get; set; }
+            public float Col8 { get; set; }
+
+            [ColumnName(@"col9")]
+            public float Col9 { get; set; }
+
+            [ColumnName(@"col10")]
+            public uint Col10 { get; set; }
 
             [ColumnName(@"Features")]
             public float[] Features { get; set; }
@@ -129,10 +171,10 @@ namespace InvisiTypeAI
         {
             var schema = PredictEngine.Value.OutputSchema;
 
-            var labelColumn = schema.GetColumnOrNull("col8");
+            var labelColumn = schema.GetColumnOrNull("col10");
             if (labelColumn == null)
             {
-                throw new Exception("col8 column not found. Make sure the name searched for matches the name in the schema.");
+                throw new Exception("col10 column not found. Make sure the name searched for matches the name in the schema.");
             }
 
             // Key values contains an ordered array of the possible labels. This allows us to map the results to the correct label value.

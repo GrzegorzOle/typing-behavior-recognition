@@ -1,12 +1,69 @@
-﻿<Window x:Class="InvisiTypeAI.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:InvisiTypeAI"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+﻿<Window
+    x:Class="InvisiTypeAI.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:InvisiTypeAI"
+    xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="InvisiType AI"
+    Width="800"
+    Height="600"
+    mc:Ignorable="d">
 
-    </Grid>
+    <DockPanel>
+        <!--  Górna Nawigacja  -->
+        <StackPanel
+            Margin="10"
+            Background="#EEE"
+            DockPanel.Dock="Top"
+            Orientation="Horizontal">
+            <Button
+                Width="150"
+                Margin="5"
+                Click="StartMonitoring_Click"
+                Content="{Binding IsMonitoring, Converter={StaticResource BoolToStartStopConverter}}" />
+            <Button
+                Width="200"
+                Margin="5"
+                Click="StartTraining_Click"
+                Content="Trening (uczenie maszynowe)" />
+        </StackPanel>
+
+        <!--  Obszar Prezentacji  -->
+        <StackPanel Margin="10" Background="White">
+            <TextBlock
+                Margin="0,0,0,5"
+                FontSize="16"
+                FontWeight="Bold"
+                Text="Prawdopodobieństwo klasyfikacji osoby (top wyniki)" />
+
+            <!--  Tabela wyników  -->
+            <DataGrid
+                Margin="0,0,0,10"
+                AutoGenerateColumns="False"
+                HeadersVisibility="Column"
+                IsReadOnly="True"
+                ItemsSource="{Binding Predictions}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn
+                        Width="*"
+                        Binding="{Binding Label}"
+                        Header="Label" />
+                    <DataGridTextColumn
+                        Width="*"
+                        Binding="{Binding Score, StringFormat={}{0:P2}}"
+                        Header="Score (%)" />
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <!--  Wykres słupkowy poniżej  -->
+            <lvc:CartesianChart
+                Height="300"
+                AxisX="{Binding AxisX}"
+                AxisY="{Binding AxisY}"
+                LegendLocation="None"
+                Series="{Binding ChartSeries}" />
+        </StackPanel>
+    </DockPanel>
 </Window>

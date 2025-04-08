@@ -8,13 +8,12 @@ using System.Threading.Tasks;
 using Microsoft.ML;
 using Microsoft.ML.Data;
 using Microsoft.ML.Trainers;
-using Microsoft.ML.Trainers.LightGbm;
 
 namespace InvisiTypeAI
 {
     public partial class MLModelType
     {
-        public const string RetrainFilePath =  @"C:\Prace\Git\typing-behavior-recognition\PressPattern\bin\Debug\net9.0\keystroke_data_train.csv";
+        public const string RetrainFilePath =  @"D:\git_v2\typing-behavior-recognition\PressPattern\bin\Debug\net9.0\keystroke_data.csv";
         public const char RetrainSeparatorChar = ',';
         public const bool RetrainHasHeader =  false;
         public const bool RetrainAllowQuoting =  false;
@@ -90,13 +89,35 @@ namespace InvisiTypeAI
         public static IEstimator<ITransformer> BuildPipeline(MLContext mlContext)
         {
             // Data process configuration with pipeline data transformations
-            var pipeline = mlContext.Transforms.ReplaceMissingValues(new []{new InputOutputColumnPair(@"col1", @"col1"),new InputOutputColumnPair(@"col2", @"col2"),new InputOutputColumnPair(@"col3", @"col3"),new InputOutputColumnPair(@"col4", @"col4")})      
-                                    .Append(mlContext.Transforms.Concatenate(@"Features", new []{@"col1",@"col2",@"col3",@"col4"}))      
-                                    .Append(mlContext.Transforms.Conversion.MapValueToKey(outputColumnName:@"col8",inputColumnName:@"col8",addKeyValueAnnotationsAsText:false))      
-                                    .Append(mlContext.MulticlassClassification.Trainers.LightGbm(new LightGbmMulticlassTrainer.Options(){NumberOfLeaves=182,NumberOfIterations=1381,MinimumExampleCountPerLeaf=20,LearningRate=0.9999997766729865,LabelColumnName=@"col8",FeatureColumnName=@"Features",Booster=new GradientBooster.Options(){SubsampleFraction=0.9999997766729865,FeatureFraction=0.9989349471612483,L1Regularization=2E-10,L2Regularization=0.9999997766729865},MaximumBinCountPerFeature=277}))      
+            var pipeline = mlContext.Transforms.ReplaceMissingValues(new []{new InputOutputColumnPair(@"col1", @"col1"),new InputOutputColumnPair(@"col2", @"col2"),new InputOutputColumnPair(@"col3", @"col3"),new InputOutputColumnPair(@"col4", @"col4"),new InputOutputColumnPair(@"col5", @"col5"),new InputOutputColumnPair(@"col7", @"col7"),new InputOutputColumnPair(@"col8", @"col8")})      
+                                    .Append(mlContext.Transforms.Conversion.ConvertType(@"col9", @"col9"))      
+                                    .Append(mlContext.Transforms.Text.FeaturizeText(inputColumnName:@"col0",outputColumnName:@"col0"))      
+                                    .Append(mlContext.Transforms.Text.FeaturizeText(inputColumnName:@"col6",outputColumnName:@"col6"))      
+                                    .Append(mlContext.Transforms.Concatenate(@"Features", new []{@"col1",@"col2",@"col3",@"col4",@"col5",@"col7",@"col8",@"col9",@"col0",@"col6"}))      
+                                    .Append(mlContext.Transforms.Conversion.MapValueToKey(outputColumnName:@"col10",inputColumnName:@"col10",addKeyValueAnnotationsAsText:false))      
+                                    .Append(mlContext.MulticlassClassification.Trainers.LbfgsMaximumEntropy(new LbfgsMaximumEntropyMulticlassTrainer.Options(){L1Regularization=0.59067047F,L2Regularization=3.6053708F,LabelColumnName=@"col10",FeatureColumnName=@"Features"}))      
                                     .Append(mlContext.Transforms.Conversion.MapKeyToValue(outputColumnName:@"PredictedLabel",inputColumnName:@"PredictedLabel"));
 
             return pipeline;
         }
+
+        public static double TrainAndReportAccuracy(string inputCsv, string outputModelPath)
+        {
+            var mlContext = new MLContext();
+
+            var data = LoadIDataViewFromFile(mlContext, inputCsv, RetrainSeparatorChar, RetrainHasHeader, RetrainAllowQuoting);
+            var split = mlContext.Data.TrainTestSplit(data, testFraction: 0.2);
+
+            var pipeline = BuildPipeline(mlContext);
+            var model = pipeline.Fit(split.TrainSet);
+
+            var predictions = model.Transform(split.TestSet);
+            var metrics = mlContext.MulticlassClassification.Evaluate(predictions, labelColumnName: "col10");
+
+            SaveModel(mlContext, model, split.TrainSet, outputModelPath);
+
+            return metrics.MicroAccuracy; // Możesz też zwrócić LogLoss lub inny wskaźnik
+        }
+
     }
- }
+}
